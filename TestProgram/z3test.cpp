@@ -16,7 +16,7 @@ public:
 
 
 private:
-    expr a, b, result, conjecture;
+    expr a, b, e, result, conjecture;
 };
 
 class SimpleMath : public CVarMath {
@@ -54,9 +54,9 @@ public:
     shared_ptr<SymbolicVar>  add(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
         shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
         shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
-        expr a = dynamic_pointer_cast<const z3Math>(opA);
-        expr b = dynamic_pointer_cast<const z3Math>(opB);
-        expr b = dynamic_pointer_cast<const z3Math>(opB);
+        expr a = shared_ptr<const z3Math> (a);
+        expr b = shared_ptr<const z3Math> (b);
+        expr result = a->e + b->e;
         return shared_ptr<z3Math>(new SimpleSymVar(a->getName() + " + " + b->getName()));
     }
     shared_ptr<SymbolicVar>  sub(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
