@@ -16,7 +16,7 @@ public:
 
 
 private:
-    expr a, b, e, result, conjecture;
+    expr e;
 };
 
 class SimpleMath : public CVarMath {
@@ -32,63 +32,169 @@ public:
 
     // Boolean Operations
     shared_ptr<SymbolicVar>  gt( shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-       return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e > b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  gte(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-       return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e >= b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  lt( shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-       return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e < b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  lte(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-       return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e - b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a <= result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  eq( shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-       return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e = b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  neq(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-       return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = ~(a->e = b->e);
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
 
     // Arithmetic Operations
     shared_ptr<SymbolicVar>  add(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
         shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
         shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
-        expr a = shared_ptr<const z3Math> (a);
-        expr b = shared_ptr<const z3Math> (b);
         expr result = a->e + b->e;
-        return shared_ptr<z3Math>(new SimpleSymVar(a->getName() + " + " + b->getName()));
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  sub(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-       return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e - b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  mul(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-      return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e * b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  div(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-      return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e / b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
 
     // Logical Operations
     shared_ptr<SymbolicVar>  logOr(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-      return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e || b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  logAnd(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-      return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e && b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  logNot(shared_ptr<const SymbolicVar> op) {
-      return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = !(a->e);
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
 
-    // Boolean Operatiosn
+    // Boolean Operations
     shared_ptr<SymbolicVar>  boolOr(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-        return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e | b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  boolAnd(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB) {
-        return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
+        expr result = a->e & b->e;
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
     shared_ptr<SymbolicVar>  boolNot(shared_ptr<const SymbolicVar> op) {
-        return NULL;
+        shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
+        expr result = !(a->e);
+
+        shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
+        resultPtr->a = result;
+
+        return resultPtr;
     }
 
     // Is Satisfiable
