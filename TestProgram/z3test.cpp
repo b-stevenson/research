@@ -199,9 +199,14 @@ public:
     bool isSat(shared_ptr<z3Math> expr) {
         context c;
 
+        //expr e;
         solver s(c);
 
-        s.add(!result);
+        switch (s.check()) {
+        case unsat:   std::cout << "is unsat\n"; break;
+        case sat:     std::cout << "is sat\n"; break;
+        case unknown: std::cout << "unknown\n"; break;
+
         return true;
     }
 
