@@ -12,7 +12,7 @@ class z3Math: public SymbolicVar {
 public:
     z3Math(string varName) : varName(varName) { }
     string toString() const {return this->varName; }
-    string getName() const { return this->varName; }
+    string getName() const {return this->varName; }
     expr e;
     context c;
 };
@@ -23,9 +23,9 @@ public:
     shared_ptr<SymbolicVar> set(shared_ptr<SymbolicVar> var){ return var;}
 
     // Get Operation
-    shared_ptr<const SymbolicVar> get(shared_ptr<const CConstant> c) {
+    shared_ptr<const SymbolicVar> get(shared_ptr<const CConstant> c) { // Ignore this error for now
 
-        return shared_ptr<SimpleSymVar>(new SimpleSymVar(c->toString()));
+        return shared_ptr<SimpleSymVar>(new SimpleSymVar(c->toString())); // And this one
     }
 
     // Boolean Operations
@@ -72,7 +72,7 @@ public:
     shared_ptr<z3Math>  eq( shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB) {
         shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
         shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
-        expr result = a->e = b->e;
+        expr result = a->e == b->e;
 
         shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
         resultPtr->e = result;
@@ -82,7 +82,7 @@ public:
     shared_ptr<z3Math>  neq(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB) {
         shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
         shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
-        expr result = !(a->e = b->e);
+        expr result = !(a->e == b->e);
 
         shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
         resultPtr->e = result;
@@ -153,10 +153,10 @@ public:
 
         return resultPtr;
     }
-    shared_ptr<z3Math>  logNot(shared_ptr<const z3Math> op) {
+    shared_ptr<z3Math>  logNot(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB) {
         shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
         shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
-        expr result = !(a->e);
+        expr result = !((a->e) && (b->e)) ;
 
         shared_ptr<z3Math> resultPtr = shared_ptr<z3Math>(new z3Math(""));
         resultPtr->e = result;
@@ -185,7 +185,7 @@ public:
 
         return resultPtr;
     }
-    shared_ptr<z3Math>  boolNot(shared_ptr<const z3Math> op) {
+    shared_ptr<z3Math>  boolNot(shared_ptr<const z3Math> opA) {
         shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
         expr result = !(a->e);
 
@@ -195,11 +195,13 @@ public:
         return resultPtr;
     }
 
-    // Is Satisfiable
+    // Is Satisfiable -> Still W.I.P.
     bool isSat(shared_ptr<z3Math> expr) {
+        context c;
+
         solver s(c);
-            // adding the negation of the conjecture as a constraint.
-            s.add(!resultPtr);
+
+        s.add(!result);
         return true;
     }
 

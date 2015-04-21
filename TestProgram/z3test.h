@@ -7,7 +7,6 @@ public:
     z3Math(string varName) : varName(varName) { }
     string toString() const {return this->varName; }
     string getName() const { return this->varName; }
-
     context c;
     expr e;
 };
