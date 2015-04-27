@@ -29,7 +29,7 @@ public:
     }
 
     // Boolean Operations
-    shared_ptr<z3Math>  gt( shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB) {
+    shared_ptr<z3Math>  gt(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB) {
         shared_ptr<const z3Math> a = dynamic_pointer_cast<const z3Math>(opA);
         shared_ptr<const z3Math> b = dynamic_pointer_cast<const z3Math>(opB);
         expr result = a->e > b->e;

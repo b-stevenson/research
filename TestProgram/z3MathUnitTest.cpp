@@ -3,16 +3,17 @@
 #include<gtest/gtest.h>
 #include<cmath>
 
+using namespace z3;
 using namespace std;
 using namespace SSARI;
 
-// Test Bool Greater Than
-TEST(BoolFunction, TestGT) {
-    BoolFunc a("a");
-    BoolFunc b("b");
+// Test Bool Greater Than (W.I.P.)
+TEST(z3Math, TestGT) {
+    z3Math a("a");
+    z3Math b("b");
 
-
-    EXPECT_GT(a, b);
+    z3Math expr1 = a > b;
+    EXPECT_EQ(expr1.toString(), "(X_0>Y_0)");
 
 }
 
