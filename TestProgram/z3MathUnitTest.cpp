@@ -2,6 +2,7 @@
 #include<ssari.h>
 #include<gtest/gtest.h>
 #include<cmath>
+#include<z3test.h>
 
 using namespace z3;
 using namespace std;
@@ -9,11 +10,11 @@ using namespace SSARI;
 
 // Test Bool Greater Than (W.I.P.)
 TEST(z3Math, TestGT) {
-    z3Math a("a");
-    z3Math b("b");
-
-    z3Math expr1 = a > b;
-    EXPECT_EQ(expr1.toString(), "(X_0>Y_0)");
+    z3Operations operation;
+    shared_ptr<Z3Math> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<Z3Math> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<Z3Math> expr = operation.gt(x, y);
+    EXPECT_EQ(operation.isSat(expr), false);
 
 }
 

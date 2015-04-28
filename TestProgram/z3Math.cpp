@@ -14,10 +14,10 @@ public:
     string toString() const {return this->varName; }
     string getName() const {return this->varName; }
     expr e;
-    context c;
+
 };
 
-class SimpleMath : public CVarMath {
+class z3Operations : public CVarMath {
 public:
     // Set Operation
     shared_ptr<SymbolicVar> set(shared_ptr<SymbolicVar> var){ return var;}
@@ -212,4 +212,5 @@ public:
 
     // Clears Any History
     void clear() {}
+
 };
