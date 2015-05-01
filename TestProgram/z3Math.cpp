@@ -11,8 +11,8 @@ using namespace std;
 class z3Math: public SymbolicVar {
 public:
     z3Math(string varName) : varName(varName) { }
-    string toString() const {return this->varName; }
-    string getName() const {return this->varName; }
+    string toString() const {return this->expr; }
+    string getName() const {return this->expr; }
     expr e;
 
 };
