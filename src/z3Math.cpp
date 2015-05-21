@@ -11,11 +11,18 @@ using s_Z3Var = shared_ptr<Z3Var>;
 using sc_Z3Var = shared_ptr<const Z3Var>;
 
 // Set Operation
-shared_ptr<SymbolicVar> Z3Math::set(CVar var, shared_ptr<SymbolicVar> expr){ return expr;}
+shared_ptr<SymbolicVar> Z3Math::set(CVar var, shared_ptr<SymbolicVar> expr) {
+    return expr;
+}
 
 // Get Operation
 shared_ptr<SymbolicVar> Z3Math::get(shared_ptr<const CConstant> c) {
-    return nullptr;
+    if(dynamic_pointer_cast<const CUniversal>(c))
+    {
+        string val = "U" + to_string(uCount++);
+        return s_Z3Var(new Z3Var(cntxt.real_const(val.c_str())));
+    }
+    return s_Z3Var(new Z3Var(cntxt.real_val(c->toString().c_str())));
 }
 
 // Boolean Operations
@@ -130,10 +137,12 @@ shared_ptr<SymbolicVar>  Z3Math::boolNot(shared_ptr<const SymbolicVar> opA) {
 
 // Is Satisfiable -> Still W.I.P.
 bool Z3Math::isSat(shared_ptr<SymbolicVar> expr) {
-    context c;
+    s_Z3Var zExpr = dynamic_pointer_cast<Z3Var>(expr);
+    if(!zExpr)
+        throw runtime_error("Z3Math: isSat, non-Z3Var input");
 
-    //expr e;
-    solver s(c);
+    solver s(cntxt);
+    s.add(zExpr->e);
 
     switch (s.check()) {
         case unsat:   return false;

@@ -1,7 +1,6 @@
 #include<z3++.h>
 #include<SSARI/ssari.h>
 #include<gtest/gtest.h>
-#include<cmath>
 #include "z3Math.h"
 
 using namespace z3;
@@ -11,170 +10,208 @@ using namespace SSARI;
 // Test Bool Greater Than
 TEST(Z3Var, TestGT) {
     Z3Math operation;
-    shared_ptr<SymbolicVar> four = operation.get(shared_ptr<CConstant>(new CConstant("4")));
-    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , four);
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
     shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
 
     shared_ptr<SymbolicVar> expr = operation.gt(x, y);
     EXPECT_EQ(operation.isSat(expr), false);
+
+    expr = operation.gt(y, x);
+    EXPECT_EQ(operation.isSat(expr), true);
 }
-/*
+
 // Test Boolean Operations
 // Greater than or Equal
 TEST(Z3Var, TestGTE) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-    shared_ptr<Z3Var> expr = operation.gte(x, y);
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+
+    shared_ptr<SymbolicVar> expr = operation.gte(x, y);
     EXPECT_EQ(operation.isSat(expr), false);
+
+    expr = operation.gte(y, x);
+    EXPECT_EQ(operation.isSat(expr), true);
 }
 
 // Less than
 TEST(Z3Var, TestLT) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-    shared_ptr<Z3Var> expr = operation.lt(x, y);
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+
+    shared_ptr<SymbolicVar> expr = operation.lt(x, y);
     EXPECT_EQ(operation.isSat(expr), true);
+
+    expr = operation.lt(y, x);
+    EXPECT_EQ(operation.isSat(expr), false);
 }
 
 // Less than or Equal
 TEST(Z3Var, TestLTE) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-    shared_ptr<Z3Var> expr = operation.lte(x, y);
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+
+    shared_ptr<SymbolicVar> expr = operation.lte(x, y);
     EXPECT_EQ(operation.isSat(expr), true);
+
+    expr = operation.lte(y, x);
+    EXPECT_EQ(operation.isSat(expr), false);
 }
 
 // Equal
 TEST(Z3Var, TestEQ) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-    shared_ptr<Z3Var> expr = operation.eq(x, y);
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+
+    shared_ptr<SymbolicVar> expr = operation.eq(x, y);
     EXPECT_EQ(operation.isSat(expr), false);
+
+    expr = operation.eq(x, x);
+    EXPECT_EQ(operation.isSat(expr), true);
 }
 
 // Not Equal
 TEST(Z3Var, TestNEQ) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-    shared_ptr<Z3Var> expr = operation.neq(x, y);
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+
+    shared_ptr<SymbolicVar> expr = operation.neq(x, y);
     EXPECT_EQ(operation.isSat(expr), true);
+
+    expr = operation.neq(x, x);
+    EXPECT_EQ(operation.isSat(expr), false);
 }
+
+
 // Test Arithmetic Operations
 // Addition
 TEST(Z3Var, TestADD) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-    EXPECT_EQ(14,operation.add(x, y));
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<SymbolicVar> sol = operation.set(CVar("sol") , operation.get(shared_ptr<CConstant>(new CConstant("14"))));
+    shared_ptr<SymbolicVar> nSol = operation.set(CVar("nsol") , operation.get(shared_ptr<CConstant>(new CConstant("12"))));
+
+    shared_ptr<SymbolicVar> result = operation.add(x, y);
+    shared_ptr<SymbolicVar> expr = operation.eq(result, sol);
+    EXPECT_EQ(operation.isSat(expr), true);
+
+    expr = operation.eq(result, nSol);
+    EXPECT_EQ(operation.isSat(expr), false);
 }
+
+
 
 // Subraction
 TEST(Z3Var, TestSUB) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-    EXPECT_EQ(-6,operation.sub(x, y));
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<SymbolicVar> sol = operation.set(CVar("sol") , operation.get(shared_ptr<CConstant>(new CConstant("-6"))));
+    shared_ptr<SymbolicVar> nSol = operation.set(CVar("nsol") , operation.get(shared_ptr<CConstant>(new CConstant("12"))));
+
+    shared_ptr<SymbolicVar> result = operation.sub(x, y);
+    shared_ptr<SymbolicVar> expr = operation.eq(result, sol);
+    EXPECT_EQ(operation.isSat(expr), true);
+
+    expr = operation.eq(result, nSol);
+    EXPECT_EQ(operation.isSat(expr), false);
 }
 
 // Multiplication
 TEST(Z3Var, TestMUL) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-    EXPECT_EQ(40,operation.mul(x, y));
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<SymbolicVar> sol = operation.set(CVar("sol") , operation.get(shared_ptr<CConstant>(new CConstant("40"))));
+    shared_ptr<SymbolicVar> nSol = operation.set(CVar("nsol") , operation.get(shared_ptr<CConstant>(new CConstant("12"))));
+
+    shared_ptr<SymbolicVar> result = operation.mul(x, y);
+    shared_ptr<SymbolicVar> expr = operation.eq(result, sol);
+    EXPECT_EQ(operation.isSat(expr), true);
+
+    expr = operation.eq(result, nSol);
+    EXPECT_EQ(operation.isSat(expr), false);
 }
 
 // Division
 TEST(Z3Var, TestDIV) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-    EXPECT_EQ(14,operation.div(x, y));
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<SymbolicVar> sol = operation.set(CVar("sol") , operation.get(shared_ptr<CConstant>(new CConstant(".4"))));
+    shared_ptr<SymbolicVar> nSol = operation.set(CVar("nsol") , operation.get(shared_ptr<CConstant>(new CConstant("12"))));
+
+    shared_ptr<SymbolicVar> result = operation.div(x, y);
+    shared_ptr<SymbolicVar> expr = operation.eq(result, sol);
+    EXPECT_EQ(operation.isSat(expr), true);
+
+    expr = operation.eq(result, nSol);
+    EXPECT_EQ(operation.isSat(expr), false);
 }
+
 
 // Test Logical Operations
 // LogOr
 TEST(Z3Var, TestlogOR) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<SymbolicVar> z = operation.set(CVar("z") , operation.get(shared_ptr<CConstant>(new CConstant("14"))));
 
-    shared_ptr<Z3Var> expr1 = operation.gt(x, y);
-    shared_ptr<Z3Var> expr2 = operation.lt(x, y);
-    shared_ptr<Z3Var> expr3 = operation.logOr(expr1, expr2);
+    shared_ptr<SymbolicVar> expr = operation.logOr(operation.lt(x, y), operation.lt(y, x));
+    EXPECT_EQ(operation.isSat(expr), true);
 
-    EXPECT_EQ(operation.isSat(expr3), true);
+    expr = operation.logOr(operation.lt(z, y), operation.lt(y, x));
+    EXPECT_EQ(operation.isSat(expr), false);
 }
 
 // LogAnd
 TEST(Z3Var, TestlogAND) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<SymbolicVar> z = operation.set(CVar("z") , operation.get(shared_ptr<CConstant>(new CConstant("14"))));
 
-    shared_ptr<Z3Var> expr1 = operation.gt(x, y);
-    shared_ptr<Z3Var> expr2 = operation.lt(x, y);
-    shared_ptr<Z3Var> expr3 = operation.logAnd(expr1, expr2);
+    shared_ptr<SymbolicVar> expr = operation.logAnd(operation.lt(x, y), operation.lt(y, z));
+    EXPECT_EQ(operation.isSat(expr), true);
 
-    EXPECT_EQ(operation.isSat(expr3), false);
+    expr = operation.logAnd(operation.lt(y, z), operation.lt(y, x));
+    EXPECT_EQ(operation.isSat(expr), false);
 }
 
 // LogNot
 TEST(Z3Var, TestlogNOT) {
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
 
-    shared_ptr<Z3Var> expr1 = operation.gt(x, y);
-    shared_ptr<Z3Var> expr2 = operation.lt(x, y);
-    shared_ptr<Z3Var> expr3 = operation.logNot(expr1, expr2);
+    shared_ptr<SymbolicVar> expr = operation.logNot(operation.lt(y, x));
+    EXPECT_EQ(operation.isSat(expr), true);
 
-    EXPECT_EQ(operation.isSat(expr3), true);
+    expr = operation.logNot(operation.lt(x, y));
+    EXPECT_EQ(operation.isSat(expr), false);
 }
 
-// Test Boolean Operations
-// BoolOr
-TEST(Z3Var, TestboolOR) {
+TEST(Z3Var, UniversalConst)
+{
     Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
+    shared_ptr<SymbolicVar> u = operation.set(CVar("U") , operation.get(shared_ptr<CUniversal>(new CUniversal())));
+    shared_ptr<SymbolicVar> zero = operation.set(CVar("zero") , operation.get(shared_ptr<CConstant>(new CConstant("0"))));
+    shared_ptr<SymbolicVar> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
+    shared_ptr<SymbolicVar> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
 
-    shared_ptr<Z3Var> expr1 = operation.gt(x, y);
-    shared_ptr<Z3Var> expr2 = operation.lt(x, y);
-    shared_ptr<Z3Var> expr3 = operation.boolOr(expr1, expr2);
+    shared_ptr<SymbolicVar> constraint = operation.lt(zero, u);
+    shared_ptr<SymbolicVar> resultOp = operation.add(constraint, x);
+    shared_ptr<SymbolicVar> sol = operation.eq(resultOp, y);
+    EXPECT_EQ(operation.isSat(sol), true);
 
-    EXPECT_EQ(operation.isSat(expr3), true);
+    constraint = operation.lt(u, zero);
+    resultOp = operation.add(constraint, x);
+    sol = operation.eq(resultOp, y);
+    EXPECT_EQ(operation.isSat(sol), false);
 }
-
-// BoolAnd
-TEST(Z3Var, TestboolAND) {
-    Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-
-    shared_ptr<Z3Var> expr1 = operation.gt(x, y);
-    shared_ptr<Z3Var> expr2 = operation.lt(x, y);
-    shared_ptr<Z3Var> expr3 = operation.boolAnd(expr1, expr2);
-
-    EXPECT_EQ(operation.isSat(expr3), false);
-}
-
-//BoolNot
-TEST(Z3Var, TestboolNOT) {
-    Z3Math operation;
-    shared_ptr<Z3Var> x = operation.set(CVar("x") , operation.get(shared_ptr<CConstant>(new CConstant("4"))));
-    shared_ptr<Z3Var> y = operation.set(CVar("y") , operation.get(shared_ptr<CConstant>(new CConstant("10"))));
-
-    shared_ptr<Z3Var> expr1 = operation.gt(x, y);
-    shared_ptr<Z3Var> expr2 = operation.lt(x, y);
-    shared_ptr<Z3Var> expr3 = operation.boolNot(expr1, expr2);
-
-    EXPECT_EQ(operation.isSat(expr3), true);
-}
-*/
-

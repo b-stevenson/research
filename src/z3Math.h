@@ -62,6 +62,9 @@ public:
 
     // Clears Any History
     void clear();
+private:
+     context cntxt;
+     int uCount = 0;
 };
 
 
