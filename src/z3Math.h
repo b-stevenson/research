@@ -27,6 +27,8 @@ public:
 
 class Z3Math : public CVarMath {
 public:
+    Z3Math(context& cntxt);
+
     // Set Operation
     shared_ptr<SymbolicVar> set(CVar var, shared_ptr<SymbolicVar> expr);
 
@@ -63,8 +65,9 @@ public:
     // Clears Any History
     void clear();
 private:
-     context cntxt;
-     int uCount = 0;
+    solver s;
+    context &cntxt;
+    int vCount = 0;
 };
 
 
