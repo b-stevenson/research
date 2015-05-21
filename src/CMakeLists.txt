@@ -12,4 +12,4 @@ add_library(Z3Math SHARED z3Math.cpp)
 
 
 # Link against LLVM libraries
-target_link_libraries(Z3Math ssari)
+target_link_libraries(Z3Math z3 ssari)

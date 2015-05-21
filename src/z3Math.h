@@ -2,57 +2,66 @@
 #define Z3TEST_H
 
 #include<z3++.h>
-#include<ssari.h>
-#include<gtest/gtest.h>
-class z3Math: public SymbolicVar {
+#include<SSARI/ssari.h>
+#include<memory>
+#include<string>
+#include<sstream>
+
+using std::stringstream;
+using std::string;
+using std::shared_ptr;
+using namespace SSARI;
+using namespace z3;
+
+class Z3Var: public SymbolicVar {
 public:
-    z3Math(string varName) : varName(varName) { }
-    string toString() const {return this->varName; }
-    string getName() const { return this->varName; }
+    Z3Var(expr e) : e(e) { }
+    string toString() const {
+        stringstream ss;
+        ss << e;
+        return ss.str();
+    }
     expr e;
 };
 
 
-class z3Operations : public CVarMath {
+class Z3Math : public CVarMath {
 public:
     // Set Operation
-    shared_ptr<SymbolicVar> set(shared_ptr<SymbolicVar> var){ return var;}
+    shared_ptr<SymbolicVar> set(CVar var, shared_ptr<SymbolicVar> expr);
 
     // Get Operation
-    shared_ptr<const SymbolicVar> get(shared_ptr<const CConstant> c) { // Ignore this error for now
-
-        return shared_ptr<SimpleSymVar>(new SimpleSymVar(c->toString())); // And this one
-    }
+    shared_ptr<SymbolicVar> get(shared_ptr<const CConstant> c);
 
     // Boolean Operations
-    shared_ptr<z3Math>  gt(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  gte(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  lt( shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  lte(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  eq( shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  neq(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
+    shared_ptr<SymbolicVar>  gt(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  gte(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  lt( shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  lte(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  eq( shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  neq(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
 
     // Arithmetic Operations
-    shared_ptr<z3Math>  add(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  sub(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  mul(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  div(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
+    shared_ptr<SymbolicVar>  add(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  sub(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  mul(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  div(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
 
     // Logical Operations
-    shared_ptr<z3Math>  logOr(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  logAnd(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  logNot(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
+    shared_ptr<SymbolicVar>  logOr(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  logAnd(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  logNot(shared_ptr<const SymbolicVar> opA);
 
     // Boolean Operations
-    shared_ptr<z3Math>  boolOr(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  boolAnd(shared_ptr<const z3Math> opA, shared_ptr<const z3Math> opB);
-    shared_ptr<z3Math>  boolNot(shared_ptr<const z3Math> opA) ;
+    shared_ptr<SymbolicVar>  boolOr(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  boolAnd(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
+    shared_ptr<SymbolicVar>  boolNot(shared_ptr<const SymbolicVar> opA) ;
 
     // Is Satisfiable -> Still W.I.P.
-    bool isSat(shared_ptr<z3Math> expr);
+    bool isSat(shared_ptr<SymbolicVar> expr);
 
     // Clears Any History
-    void clear() {}{
+    void clear();
 };
 
 
