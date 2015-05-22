@@ -27,7 +27,8 @@ public:
 
 class Z3Math : public CVarMath {
 public:
-    Z3Math(context& cntxt);
+    Z3Math();
+    ~Z3Math();
 
     // Set Operation
     shared_ptr<SymbolicVar> set(CVar var, shared_ptr<SymbolicVar> expr);
@@ -59,14 +60,16 @@ public:
     shared_ptr<SymbolicVar>  boolAnd(shared_ptr<const SymbolicVar> opA, shared_ptr<const SymbolicVar> opB);
     shared_ptr<SymbolicVar>  boolNot(shared_ptr<const SymbolicVar> opA) ;
 
-    // Is Satisfiable -> Still W.I.P.
+    // Is Satisfiable
     bool isSat(shared_ptr<SymbolicVar> expr);
+    void addClause(shared_ptr<SymbolicVar> expr);
+
 
     // Clears Any History
     void clear();
 private:
-    solver s;
-    context &cntxt;
+    solver *s;
+    context cntxt;
     int vCount = 0;
 };
 

@@ -11,7 +11,9 @@ using s_Z3Var = shared_ptr<Z3Var>;
 using sc_Z3Var = shared_ptr<const Z3Var>;
 
 
-Z3Math::Z3Math(context& cntxt) : s(cntxt), cntxt(cntxt) {}
+Z3Math::Z3Math() {
+    s = nullptr;
+}
 
 // Set Operation
 shared_ptr<SymbolicVar> Z3Math::set(CVar var, shared_ptr<SymbolicVar> expr) {
@@ -142,22 +144,32 @@ shared_ptr<SymbolicVar>  Z3Math::boolNot(shared_ptr<const SymbolicVar> opA) {
 
 // Is Satisfiable -> Still W.I.P.
 bool Z3Math::isSat(shared_ptr<SymbolicVar> expr) {
-    s_Z3Var zExpr = dynamic_pointer_cast<Z3Var>(expr);
-    if(!zExpr)
-        throw runtime_error("Z3Math: isSat, non-Z3Var input");
-    s.add(zExpr->e);
+    if(expr != nullptr)
+        cout << "Warning: isSat expr parameter is not used. Use addClause instead" << endl;
 
-    switch (s.check()) {
+    switch (s->check()) {
         case unsat:   return false;
         case sat:     return true;
         case unknown: return true;
     }
     return true;
-
 }
 
 // Clears Any History
 void Z3Math::clear() {
-    s.reset();
+    if(s)
+        s->reset();
+}
+
+void Z3Math::addClause(shared_ptr<SymbolicVar> expr) {
+    if(!s)
+        s = new solver(cntxt);
+    sc_Z3Var sExpr = dynamic_pointer_cast<const Z3Var>(expr);
+    s->add(sExpr->e);
+}
+
+Z3Math::~Z3Math() {
+    if(s)
+        delete s;
 }
 
